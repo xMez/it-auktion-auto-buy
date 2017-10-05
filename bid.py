@@ -28,23 +28,23 @@ payload = {
 
 s = requests.Session()
 url = 'https://www.it-auktion.se/index.jsp'
-result = s.post(url, headers=header, data=login, verify='./cert.crt')
-print (result.ok)
-print (result.status_code)
-print (s.cookies)
+result = s.post(url, headers = header, data = login, verify = './cert.crt')
+#print (result.ok)
+#print (result.status_code)
+#print (s.cookies)
 print (result.url)
-result = s.post(url, headers=header, data=payload, verify='cert.crt')
+result = s.get(url, headers=header, params = param, verify='cert.crt', allow_redirects = False)
 tree = html.fromstring(result.content)
-items = tree.xpath('//*[@id="user"]/text()')
-bids = tree.xpath('//*[@id="pris"]/text()')
-print (result.ok)
-print (result.status_code)
-print (s.cookies)
+#items = tree.xpath('//*[@id="user"]/text()')
+#bids = tree.xpath(('//*[@id="pris"]//p/text()').strip())
+#print (result.ok)
 print (result.url)
-print (str(items).strip())
-print (str(bids).strip())
+#print (result.status_code)
+#print (s.cookies)
+#print (type(str(items).strip() + '\n'))
+#print (str(bids).strip() + '\n')
 
-while False:
+while True:
 
     result = requests.get('https://www.it-auktion.se/index.jsp?category=Sk_ermar.TFT__23__-__24', data=login, verify='cert.crt')
     tree = html.fromstring(result.content)
@@ -60,8 +60,8 @@ while False:
 
     print ('Items:', items)
     if 'HP - LA2405x' in items:
-        bids = tree.xpath('//*[@id="form102667"]//div[@id="pris"]//p/text()')
-        bidders = tree.xpath('//*[@id="form102667"]//div[@id="budgivare"]//p/text()')
+        bids = tree.xpath('//*[@id="form102731"]//div[@id="pris"]//p/text()')
+        bidders = tree.xpath('//*[@id="form102731"]//div[@id="budgivare"]//p/text()')
         bidsList = []
         biddersList = []
         for i in range (len(bids)):
@@ -72,8 +72,7 @@ while False:
             print (bidsList[i] + ': ' + biddersList[i])
 
         # if biddersList[0] is not 'xMez':
-        #     #
 
 
         print ('YES')
-    time.sleep(5)
+    time.sleep(50)
